@@ -1,0 +1,101 @@
+body {
+    font-size: 16px;
+    font-weight: 400;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    --headerMult: 3px;
+}
+
+h1 {
+    font-size: calc(1rem + 6*var(--headerMult));
+}
+
+h2 {
+    font-size: calc(1rem + 5*var(--headerMult));
+}
+
+h3 {
+    font-size: calc(1rem + 4*var(--headerMult));
+}
+
+h4 {
+    font-size: calc(1rem + 3*var(--headerMult));
+}
+
+h5 {
+    font-size: calc(1rem + 2*var(--headerMult));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 1.5em 0 1em 0;
+}
+
+.container {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 48px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+@media (min-width: 360px) {
+    .container {
+        max-width: 340px;
+    }
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+#notams {
+    padding: 1.5em;
+}
+
+#notams h2 {
+    text-decoration: underline;
+}
+
+.notam {
+    background-color: #dadada;
+    padding: 1.5em;
+}
+
+.notam:not(:last-child) {
+    border-bottom: 1px solid #fff;
+    padding-bottom: 1em;
+}
+
+:is(.notam-heading, .notam-validity, .notam-heights) *:first-child {
+    margin: 0 0.5em 0.5em 0;
+}
+
+.notam-reference {
+    display: inline-block;
+    font-weight: bold;
+}
