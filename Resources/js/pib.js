@@ -1,7 +1,7 @@
 import { xmlToJson } from "./xmltojson.js";
 import { haversine } from "./haversine.js";
-import qCodes from "./qCodes.json" assert { type: "json" }
-//import pib from "./pib.json" assert {type: "json"}
+import qCodes from "./qCodes.json" with { type: "json" }
+//import pib from "./pib.json" with {type: "json"}
 
 const getXmlPib = async () => {
     const url =
