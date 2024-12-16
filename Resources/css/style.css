@@ -3,6 +3,7 @@ body {
     font-weight: 400;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     --headerMult: 3px;
+    margin: 0;
 }
 
 h1 {
@@ -43,15 +44,9 @@ h6 {
     padding-bottom: 1rem;
 }
 
-@media (min-width: 360px) {
+@media (max-width: 767px) {
     .container {
-        max-width: 340px;
-    }
-}
-
-@media (min-width: 576px) {
-    .container {
-        max-width: 540px;
+        max-width: 100%;
     }
 }
 
@@ -84,6 +79,7 @@ h6 {
 .notam {
     background-color: #dadada;
     padding: 1.5em;
+    margin-bottom: 0.5rem;
 }
 
 .notam:not(:last-child) {
@@ -98,4 +94,11 @@ h6 {
 .notam-reference {
     display: inline-block;
     font-weight: bold;
+}
+
+@media screen and (max-width: 767px) {
+    .notam-body {
+        font-size: 0.9em;
+        line-height: 1.3;
+    }
 }
