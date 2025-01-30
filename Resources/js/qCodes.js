@@ -1,4 +1,4 @@
-{
+const qCodes = {
     "part23": {
         "FA": "AERODROME",
         "FB": "FRICTION MEARUREMENT DEVICE (MU METER)",

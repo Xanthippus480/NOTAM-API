@@ -1,4 +1,4 @@
-export function xmlToJson(xml) {
+function xmlToJson(xml) {
     "use strict";
     // Create the return object
     var obj = {},

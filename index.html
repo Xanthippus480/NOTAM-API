@@ -5,20 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./Resources/css/style.css">
+    <link rel="stylesheet" href="/Resources/css/style.css">
     <link rel="stylesheet" href="Jquery-CSS-Folder/jquery-ui.css">
     <script src="Jquery-JS-Folder/jquery-3.6.0.js"></script>
     <script src="Jquery-JS-Folder/jquery-ui.js"></script>
-    <script type="module" src="./Resources/js/pib.js"></script>
-    <script type="module" src="./Resources/js/haversine.js"></script>
-    <script type="module" src="./Resources/js/xmltojson.js"></script>
 
-    <title>Document</title>
+    <script src="/Resources/js/haversine.js"></script>
+    <script src="/Resources/js/xmltojson.js"></script>
+    <script src="/Resources/js/qCodes.js"></script>
+    <script src="/Resources/js/pib.js"></script>
+    <script src="/Resources/js/main.js"></script>
+
+    <title>NOTAMS</title>
 </head>
 
 <body>
     <main class="container">
-        <div id="notams"></div>
+        <div id="notams">
+            <h2>Enroute NOTAMS</h2>
+            <div id="enroute"></div>
+            <h2>Navigation Warnings</h2>
+            <div id="navWarn"></div>
+        </div>
     </main>
 
 </html>

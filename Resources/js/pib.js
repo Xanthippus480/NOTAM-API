@@ -1,35 +1,31 @@
-import { xmlToJson } from "./xmltojson.js";
-import { haversine } from "./haversine.js";
-import qCodes from "./qCodes.json" with { type: "json" }
-//import pib from "./pib.json" with {type: "json"}
+async function getNOTAMS() {
+    async function getPibXml() {
+        const response = await fetch("https://raw.githubusercontent.com/Jonty/uk-notam-archive/main/data/PIB.xml", {
+            method: "GET",
+            "access-control-allow-origin": "https://raw.githubusercontent.com"
+        });
 
-const getXmlPib = async () => {
-    const url =
-        "https://raw.githubusercontent.com/Jonty/uk-notam-archive/main/data/PIB.xml";
-    const response = await fetch(url, {
-        method: "GET",
-        "access-control-allow-origin": "https://raw.githubusercontent.com"
-    });
-    const pibText = await response.text();
-    const domParser = new DOMParser();
-    const pibXML = domParser.parseFromString(pibText, "application/xml");
-    //console.log(pibXML)
-    return pibXML;
-};
+        if (response.ok) {
+            const pibText = await response.text();
+            const domParser = new DOMParser();
+            const pibXML = domParser.parseFromString(pibText, "application/xml");
+            return pibXML;
+        }
+    };
 
-const getJsonPib = async () => {
-    const pibXML = await getXmlPib();
-    const pib = pibXML.childNodes[1];
-    return xmlToJson(pib);
-};
+    const getJsonPib = async (pibXML) => {
+        const pib = pibXML.childNodes[1];
+        const jsonPib = xmlToJson(pib)
+        return jsonPib
+    };
 
-getJsonPib().then((result) => filterPib(result));
+    const xml = await getPibXml()
+    const jsonPib = await getJsonPib(xml);
+    console.log(jsonPib);
+    return jsonPib
+}
 
-//filterPib(pib)
-
-function filterPib(pib) {
-    const enrouteNotams = pib.FIRSection[0]["En-route"].NotamList.Notam;
-    const warnings = pib.FIRSection[0].Warnings.NotamList.Notam;
+/*function filterNotams(notamArray, filters) {
 
     let LocalEnrouteNotams = enrouteNotams.filter((notam) => {
         if (filterByDistance(notam) < 46300 && !notam.Coordinates.match(/E/)) {
@@ -43,18 +39,27 @@ function filterPib(pib) {
         }
     });
 
-    displayNotams([LocalEnrouteNotams, LocalWarnings]);
-}
+    return [LocalEnrouteNotams, LocalWarnings]
+}*/
 
-function displayNotams(notamArray) {
-    notamArray.forEach((array, i) => {
-        const notamsContainer = document.getElementById("notams");
-        const h2 = document.createElement("h2");
-        h2.innerText = i === 0 ? "Enroute" : "Warnings";
-        notamsContainer.appendChild(h2);
+function displayNotams(pib, filters = undefined) {
 
-        array.forEach((notam) => {
-            const details = [];
+    const enrouteNotamArray = pib.FIRSection[0]["En-route"].NotamList.Notam;
+    const navigationWarningArray = pib.FIRSection[0].Warnings.NotamList.Notam;
+
+    //const notamArray = filters !== undefined ? filterNotams([enrouteNotams, warnings], filters) : [enrouteNotams, warnings];
+
+    const enrouteNotams = processNotamArray(enrouteNotamArray);
+    const navigationWarnings = processNotamArray(navigationWarningArray);
+    document.getElementById('enroute').appendChild(enrouteNotams);
+    document.getElementById('navWarn').appendChild(navigationWarnings);
+
+    function processNotamArray(notamArray) {
+
+        const notamsWrapper = document.createElement('div');
+
+        notamArray.forEach((notam) => {
+
             const notamContainer = document.createElement('div');
             const notamHeading = document.createElement('div');
             const notamValidity = document.createElement('div');
@@ -123,23 +128,18 @@ function displayNotams(notamArray) {
 
             notamHeights.append(heights[0], heights[1])
             notamContainer.append(notamHeading, notamValidity, notamBody, notamHeights);
-            notamsContainer.appendChild(notamContainer);
-
+            notamsWrapper.appendChild(notamContainer);
         });
-    });
-}
 
-/*jQuery(function displayNotamsJQ() {
-    const $notamDiv = 
-})*/
+        return notamsWrapper
+    };
+}
 
 function filterByDistance(n) {
     let northDeg = parseInt(n.Coordinates.slice(0, 2));
     let northMin = parseInt(n.Coordinates.slice(2, 4));
     let westDeg = parseInt(n.Coordinates.slice(5, 8));
     let westMin = parseInt(n.Coordinates.slice(8, 10));
-
-    //console.log('5049N10055W'.match(/\d{2}(?=\d{2}[N])|\d{2}(?=[N])|\d{3}(?=\d{2}[W])|\d{2}(?=\d{2}[W])/g));
 
     let northDec = northDeg + northMin / 60;
     let westDec = (westDeg + westMin / 60) * -1;
