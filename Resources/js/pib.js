@@ -21,7 +21,6 @@ async function getNOTAMS() {
 
     const xml = await getPibXml()
     const jsonPib = await getJsonPib(xml);
-    console.log(jsonPib);
     return jsonPib
 }
 
