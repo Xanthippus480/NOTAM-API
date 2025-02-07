@@ -21,6 +21,29 @@
 
 <body>
     <main class="container">
+        <div id="filter-section">
+            <h2>Filters</h2>
+            <form id="filters">
+                <div class="filter-form-tab" id="aerodrome-filter">
+                    <label for="aerodromes">Aerodrome(s): </label><input type="text" id="aerodromes">
+                    <label for="distance">Distance - NM: </label><input type="text" id="distance">
+                    <p>When:</p>
+                    <ul id="time-filter-list">
+                        <li><label for="today">Today</label><input type="radio" name="when" id="today"></li>
+                        <li><label for="tomorrow">Tomorrow</label><input type="radio" name="when" id="tomorrow"></li>
+                        <li><label for="this week">This Week</label><input type="radio" name="when" id="this-week"></li>
+                    </ul>
+                    <ul id="notam-type-list">
+                        <li><input type="checkbox" name="notam-type" id="ad"><label for="ad">Aerodrome</label></li>
+                        <li><input type="checkbox" name="notam-type" id="enroute"><label for="enroute">Enroute</label>
+                        </li>
+                        <li><input type="checkbox" name="notam-type" id="nav-warn"><label for="nav-warn">Navigation
+                                Warnings</label></li>
+                    </ul>
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
         <div id="notams">
             <h2>Enroute NOTAMS</h2>
             <div id="enroute"></div>
