@@ -21,26 +21,47 @@
 
 <body>
     <main class="container">
+        <h1>PIB Generator</h1>
         <div id="filter-section">
             <h2>Filters</h2>
             <form id="filters">
+                <ul id="filter-tab-list">
+                    <li class="tab">Aerodrome</li>
+                    <li class="tab">FIR</li>
+                </ul>
                 <div class="filter-form-tab" id="aerodrome-filter">
-                    <label for="aerodromes">Aerodrome(s): </label><input type="text" id="aerodromes">
-                    <label for="distance">Distance - NM: </label><input type="text" id="distance">
-                    <p>When:</p>
-                    <ul id="time-filter-list">
-                        <li><label for="today">Today</label><input type="radio" name="when" id="today"></li>
-                        <li><label for="tomorrow">Tomorrow</label><input type="radio" name="when" id="tomorrow"></li>
-                        <li><label for="this week">This Week</label><input type="radio" name="when" id="this-week"></li>
-                    </ul>
-                    <ul id="notam-type-list">
-                        <li><input type="checkbox" name="notam-type" id="ad"><label for="ad">Aerodrome</label></li>
-                        <li><input type="checkbox" name="notam-type" id="enroute"><label for="enroute">Enroute</label>
-                        </li>
-                        <li><input type="checkbox" name="notam-type" id="nav-warn"><label for="nav-warn">Navigation
-                                Warnings</label></li>
+                    <div class="form-item" id="aerodrome-list">
+                        <label for="aerodromes">Aerodrome(s): </label>
+                        <textarea id="aerodromes"></textarea>
+                        <button class="btn btn-primary">Add</button>
+                    </div>
+                    <div id="selected-aerodromes">
+                        <p class="aerodrome">EGLL <span class="close-button">x</span> </p>
+                    </div>
+                    <div class="form-item"><label for="distance">Distance - NM: </label><input type="number"
+                            id="distance"></div>
+                </div>
+                <div class="filter-form-tab hidden" id="fir-filter">
+                    <ul id="fir-filter-list" class="flex">
+                        <li><label for="egtt">London</label><input type="radio" name="fir" id="egtt"></li>
+                        <li><label for="egpx">Scottish</label><input type="radio" name="fir" id="egpx"></li>
+                        <li><label for="eggx">Shanwick</label><input type="radio" name="fir" id="eggx"></li>
                     </ul>
                 </div>
+                <h3>When:</h3>
+                <ul id="time-filter-list" class="flex">
+                    <li><label for="today">Today</label><input type="radio" name="when" id="today"></li>
+                    <li><label for="tomorrow">Tomorrow</label><input type="radio" name="when" id="tomorrow"></li>
+                    <li><label for="this week">This Week</label><input type="radio" name="when" id="this-week"></li>
+                </ul>
+                <h3>NOTAMS to Include:</h3>
+                <ul id="notam-type-list" class="flex">
+                    <li><input type="checkbox" name="notam-type" id="ad"><label for="ad">Aerodrome</label></li>
+                    <li><input type="checkbox" name="notam-type" id="enroute"><label for="enroute">Enroute</label>
+                    </li>
+                    <li><input type="checkbox" name="notam-type" id="nav-warn"><label for="nav-warn">Navigation
+                            Warnings</label></li>
+                </ul>
                 <input type="submit" value="Submit">
             </form>
         </div>
