@@ -5,7 +5,7 @@
 body {
     font-size: 16px;
     font-weight: 400;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: sans-serif;
     --headerMult: 3px;
     margin: 0;
 }
@@ -43,9 +43,29 @@ p {
     margin-top: 0;
 }
 
-ul.flex {
+ul li.filler {
+    width: -webkit-fill-available;
+    width: -moz-fill-available;
+    border-bottom: 2px solid #000;
+}
+
+.flex {
     display: flex;
+    flex-flow: row nowrap;
+}
+
+ul.flex {
     flex-flow: row wrap;
+    list-style-type: none;
+    padding: 0;
+}
+
+.flex .form-item {
+    margin: 0;
+}
+
+.flex .form-item :is(input, label) {
+    margin-bottom: 0;
 }
 
 .container {
@@ -102,8 +122,9 @@ input {
 /* Filter Section */
 
 #filter-section {
-    background: #dbdbdb;
+    /*background: #dbdbdb;*/
     padding: 1em;
+    border: 2px solid #000;
 }
 
 #filter-tab-list {
@@ -114,34 +135,57 @@ input {
     list-style-type: none;
 }
 
-.tab {
+.tab-button {
     padding: 0.5rem 1rem;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border: 1px solid #000;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    border: solid 2px #000;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+.tab-button:not(.active) {
+    color: #9d9d9d;
+    border: solid 2px #9d9d9d;
+    border-bottom-color: #000;
 }
 
 .filter-form-tab {
     padding: 1rem;
-    border: 1px solid #000;
+    border: 2px solid #000;
+    border-top: none
+}
+
+.filter-form-tab:not(.active) {
+    display: none;
+}
+
+.ad-filter-group {
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 #aerodrome-list {
-    display: flex;
+    display: inline-flex;
     flex-flow: row wrap;
     align-items: center;
     gap: 1rem;
 }
 
-#aerodrome-list textarea {}
-
 #selected-aerodromes {
     width: -webkit-fill-available;
     width: -moz-fill-available;
-    margin-bottom: 2rem;
     display: flex;
     flex-flow: row wrap;
     gap: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 5px;
+    background-color: #e2e2e2;
 }
 
 #selected-aerodromes .aerodrome {
@@ -165,8 +209,14 @@ input {
     cursor: pointer;
 }
 
+.inline-header {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
 #time-filter-list,
 #notam-type-list {
+    display: inline-flex;
     list-style-type: none;
     padding-left: 0;
 }
@@ -187,6 +237,7 @@ input {
 }
 
 .notam {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: #dadada;
     padding: 1.5em;
     margin-bottom: 0.5rem;
