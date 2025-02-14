@@ -10,9 +10,11 @@
     <script src="Jquery-JS-Folder/jquery-3.6.0.js"></script>
     <script src="Jquery-JS-Folder/jquery-ui.js"></script>
 
+    <script src="/Resources/js/utilities.js"></script>
     <script src="/Resources/js/haversine.js"></script>
     <script src="/Resources/js/xmltojson.js"></script>
     <script src="/Resources/js/qCodes.js"></script>
+    <script src="/Resources/js/aerodromes.js"></script>
     <script src="/Resources/js/pib.js"></script>
     <script src="/Resources/js/main.js"></script>
 
@@ -37,11 +39,14 @@
                                 <label for="aerodromes">Aerodrome(s): </label>
                                 <textarea id="aerodrome-field"></textarea>
                                 <button id="add-ad" class="btn btn-primary">Add</button>
+                                <p class="input-description">Airfield name or ICAO code</p>
                             </div>
                             <div class="form-item">
                                 <label for="distance">Distance - NM: </label><input type="number" id="distance">
+                                <p class="input-description">Measured from aerodrome ARP - default 25NM Radius</p>
                             </div>
                         </div>
+                        <h4>Selected Aerodromes:</h4>
                         <div id="selected-aerodromes"></div>
                     </div>
                     <div class="filter-form-tab tab" id="fir-filter" data-tab="fir">
