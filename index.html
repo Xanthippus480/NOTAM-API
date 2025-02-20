@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Resources/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/Resources/css/style.css">
     <link rel="stylesheet" href="Jquery-CSS-Folder/jquery-ui.css">
     <script src="Jquery-JS-Folder/jquery-3.6.0.js"></script>
@@ -88,12 +89,16 @@
                 <input type="submit" value="Submit">
             </form>
         </div>
-        <div id="notams">
-            <h2>Enroute NOTAMS</h2>
-            <div id="enroute"></div>
-            <h2>Navigation Warnings</h2>
-            <div id="navWarn"></div>
-        </div>
+        <ul id="notams">
+            <li>
+                <h2><i class="caret fa fa-caret-down"></i>Enroute NOTAMS</h2>
+                <div id="enroute-box" class="notam-box"></div>
+            </li>
+            <li>
+                <h2><i class="caret fa fa-caret-down"></i>Navigation Warnings</h2>
+                <div id="navWarn-box" class="notam-box"></div>
+            </li>
+        </ul>
     </main>
 
 </html>

@@ -239,10 +239,22 @@ input {
 
 #notams {
     padding: 1.5em;
+    list-style: none;
 }
 
 #notams h2 {
+    position: relative;
     text-decoration: underline;
+}
+
+#notams h2 .caret {
+    position: absolute;
+    top: 0;
+    left: -3%;
+}
+
+#notams h2 .caret.closed {
+    transform: rotate(-90deg)
 }
 
 .notam {

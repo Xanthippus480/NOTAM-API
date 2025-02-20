@@ -5,6 +5,7 @@ window.onload = (event) => {
     $('.tab-button').on('click', openTab)
     $('.filter-form-tab.active :is(input,textarea,radio,checkbox)').prop('required', true)
     $('#add-ad').on('click', addAerodrome)
+    $('.caret').on('click', collapseNOTAMS)
 }
 
 async function getInfo() {
@@ -88,4 +89,8 @@ function removeAerodrome(event) {
     if ($('#selected-aerodromes').children().length === 0) {
         $('#selected-aerodromes').empty();
     }
+}
+
+function collapseNOTAMS() {
+    $(this).toggleClass('closed').closest('li').find('.notam-box').toggle();
 }

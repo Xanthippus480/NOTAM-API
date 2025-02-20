@@ -50,8 +50,8 @@ function displayNotams(pib, filters = undefined) {
 
     const enrouteNotams = processNotamArray(enrouteNotamArray);
     const navigationWarnings = processNotamArray(navigationWarningArray);
-    document.getElementById('enroute').appendChild(enrouteNotams);
-    document.getElementById('navWarn').appendChild(navigationWarnings);
+    document.getElementById('enroute-box').appendChild(enrouteNotams);
+    document.getElementById('navWarn-box').appendChild(navigationWarnings);
 
     function processNotamArray(notamArray) {
 
