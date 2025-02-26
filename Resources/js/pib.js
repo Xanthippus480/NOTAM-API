@@ -48,89 +48,86 @@ function displayNotams(pib, filters = undefined) {
 
     //const notamArray = filters !== undefined ? filterNotams([enrouteNotams, warnings], filters) : [enrouteNotams, warnings];
 
-    const enrouteNotams = processNotamArray(enrouteNotamArray);
-    const navigationWarnings = processNotamArray(navigationWarningArray);
-    document.getElementById('enroute-box').appendChild(enrouteNotams);
-    document.getElementById('navWarn-box').appendChild(navigationWarnings);
+    processNotamArray(enrouteNotamArray, "enroute");
+    processNotamArray(navigationWarningArray, "navWarn");
 
-    function processNotamArray(notamArray) {
+    function processNotamArray(notamArray, section) {
 
-        const notamsWrapper = document.createElement('div');
+        const wrapper = `#${section}-box`;
 
         notamArray.forEach((notam) => {
 
-            const notamContainer = document.createElement('div');
-            const notamHeading = document.createElement('div');
-            const notamValidity = document.createElement('div');
-            const notamReference = document.createElement('p');
-            const notamItemA = document.createElement('p');
-            const notamQLine = document.createElement('span');
-            const notamStart = document.createElement('span');
-            const notamEnd = document.createElement('span');
-            const notamHeights = document.createElement('div');
-            const notamBody = document.createElement('p');
-
-            notamContainer.classList.add('notam');
-            notamHeading.classList.add('notam-heading');
-            notamValidity.classList.add('notam-validity');
-            notamReference.classList.add('notam-reference');
-            notamItemA.classList.add('notam-item-a');
-            notamQLine.classList.add('notam-qline');
-            notamStart.classList.add('notam-start');
-            notamEnd.classList.add('notam-end');
-            notamHeights.classList.add('notam-heights');
-            notamBody.classList.add('notam-body');
-
-            notamReference.innerText = `${notam.Series}${notam.Number}/${notam.Year}:`;
-            notamItemA.innerHTML = `<strong>A)</strong> ${notam.ItemA}`;
-            notamQLine.innerText = `${qCodes.part23[`${notam.QLine.Code23}`]} ${qCodes.part45[`${notam.QLine.Code45}`]}`;
-            notamStart.innerHTML = `<strong>B)</strong> ${notam.StartValidity}`;
-            notamEnd.innerHTML = `<strong>C)</strong> ${notam.EndValidity}`;
-            notamBody.innerHTML = `<strong>E)</strong> ${notam.ItemE}`;
-            notamHeading.append(notamReference, notamQLine, notamItemA);
-            notamValidity.append(notamStart, notamEnd);
-
-            if (notam.ItemD) {
-                const notamSchedule = document.createElement('span');
-                notamSchedule.classList.add('notam-schedule');
-                notamSchedule.innerText = notam.ItemD;
-                notamValidity.append(notamSchedule);
-            }
-
-            const getHeights = () => {
-                let lower;
-
-                if (notam.QLine.Lower == "0") {
-                    lower = "SFC";
-                } else {
-                    lower = parseInt(notam.QLine.lower);
-                    lower < 30 ? lower = (lower * 100) + "FT AMSL" : lower = `FL${lower}`;
-                }
-
-                let upper = notam.QLine.Upper;
-
-                if (typeof upper === "string") {
-                    upper = parseInt(upper);
-                    upper < 30 ? upper = (upper * 100) + "FT AMSL" : upper = `FL${upper}`;
-                }
-
-                const itemF = document.createElement('span');
-                const itemG = document.createElement('span');
-
-                itemF.innerHTML = `<strong>F)</strong>${lower}`;
-                itemG.innerHTML = `<strong>G)</strong>${upper}`;
-
-                return ([itemF, itemG])
-            }
-
             const heights = getHeights();
 
-            notamHeights.append(heights[0], heights[1])
-            notamContainer.append(notamHeading, notamValidity, notamBody, notamHeights);
-            notamsWrapper.appendChild(notamContainer);
-        });
+            const qLineArray = Object.values(notam.QLine);
+            qLineArray[1] += qLineArray[2];
+            qLineArray.splice(2, 1);
+            qLineArray.splice(5, 2);
+            qLineArray.push(heights[0], heights[1], notam.Coordinates);
+            const notamQline = qLineArray.join("/");
 
-        return notamsWrapper
+            const notamReference = `${notam.Series}${notam.Number}/${notam.Year}:`;
+            const notamItemA = notam.ItemA;
+            const notamStart = notam.StartValidity;
+            const notamEnd = notam.EndValidity;
+            const notamBody = notam.ItemE;
+
+            $(wrapper).append(`<div class="notam new"><div class="notam-heading"><p class="notam-reference">${notamReference}</p><span class="notam-qline">${notamQline}</span><p class="notam-itemA"><strong>A)</strong>${notamItemA}</p></div><div class="notam-validity"><span class="notam-start"><strong>B)</strong>${notamStart}</span><span class="notam-end"><strong>C)</strong>${notamEnd}</span></div><p class="notam-body"><strong>E) </strong>${notamBody}</p></div>`);
+
+            if (Object.hasOwn(notam, 'ItemD')) {
+                $('.notam.new .notam-validity').after(`<p class="notam-schedule">${notam.itemD}</p>`)
+            }
+
+            if (section === "navWarn") {
+                $('.notam.new').append(`<div class="notam-heights"><span><strong>F)</strong>${heights[2]}</span><span><strong>G)</strong>${heights[3]}</span></div>`)
+            }
+
+            $('.notam.new').removeClass('new');
+
+
+            function getHeights() {
+
+                let lower;
+                let qLower;
+
+                const lowerStr = notam.QLine.Lower
+                const lowerNum = parseInt(lowerStr)
+
+                if (lowerStr == "0") {
+                    lower = "SFC";
+                    qLower = "000";
+                } else {
+                    lower = (lowerNum * 100) + "FT AMSL"
+                    if (lowerStr.length === 2) {
+                        qLower = "0" + lowerStr
+                    } else if (lowerStr.length === 1) {
+                        qLower = "00" + lowerStr
+                    } else {
+                        qLower = lowerStr;
+                    }
+                }
+
+                let upper;
+                let qUpper;
+
+                if (typeof notam.QLine.Upper === "string") {
+                    let upperStr = notam.QLine.Upper
+                    let upperNum = parseInt(upperStr);
+                    upper = (upperNum * 100) + "FT AMSL";
+                    if (upperStr.length === 2) {
+                        qUpper = "0" + upperStr
+                    } else if (upperStr.length === 1) {
+                        qUpper = "00" + upperStr
+                    } else {
+                        qUpper = upperStr;
+                    }
+                }
+
+                const heightsArray = [qLower, qUpper, lower, upper];
+
+                return (heightsArray)
+            }
+        });
     };
 }
 
